@@ -1,35 +1,18 @@
 package butler
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
-type Person struct {
-	Name    string `env:"name"`
-	Age     int    `env:"age"`
-	Address *Address
-}
+func Test_refConfig(t *testing.T) {
 
-type Address struct {
-	Street string `env:"street"`
-}
+	for _, ref := range []string{
+		"master",
+		"develop",
+		"feat/xxxx",
+	} {
+		fmt.Println(_refConfig(ref))
 
-func (p *Person) SetDefaults() {
-	p.Name = "zhangsan"
-}
-
-func Test_App(t *testing.T) {
-
-	app := App{
-		Name: "APP",
 	}
-
-	config := &struct {
-		Person *Person
-	}{
-		Person: &Person{
-			Address: &Address{},
-		},
-	}
-
-	// app.Save(config)
-	app.Load(config)
 }

@@ -1,9 +1,7 @@
 package butler
 
 import (
-	"bufio"
 	"fmt"
-	"io"
 	"log"
 	"os"
 	"strings"
@@ -15,45 +13,50 @@ type App struct {
 	Name string
 }
 
-func (app *App) Save(config interface{}) error {
-	// envutils.Marshal(config)
-
+func (app *App) Conf(config interface{}) error {
 	if err := envutils.SetDefaults(config); err != nil {
 		return err
 	}
+
+	// write config
 	data, err := envutils.Marshal(config, app.Name)
 	if err != nil {
 		return err
 	}
+	_ = os.WriteFile("default.yml", data, 0644)
 
-	return os.WriteFile("config.yml", data, 0644)
-}
+	// load config from files
+	for _, _conf := range []string{"default.yml", "config.yml", refConfig()} {
+		err = envutils.UnmarshalFile(config, app.Name, _conf)
+		if err != nil {
+			log.Println(err)
+		}
+	}
 
-func (app *App) Load(config interface{}) error {
-
-	confname := `config.yml`
-
-	file, err := os.Open(confname)
+	// load config from env
+	err = envutils.UnmarshalEnv(config, app.Name)
 	if err != nil {
-		log.Printf("no file %s \n", confname)
+		log.Print(err)
 	}
 
-	setEnv(file)
-
-	return envutils.LoadEnv(config, app.Name)
+	return nil
 }
 
-func setEnv(r io.Reader) {
-	fmt.Scanln()
-	scanner := bufio.NewScanner(r)
+func refConfig() string {
+	// gitlab ci
+	ref := os.Getenv("CI_COMMIT_REF_NAME")
 
-	for scanner.Scan() {
-		line := scanner.Text()
-		fmt.Println("read line=>", line)
-		parts := strings.Split(line, ":")
-		os.Setenv(parts[0], parts[1])
-
-		e2 := os.Getenv(parts[0])
-		fmt.Println("e2=>", e2)
+	if len(ref) != 0 {
+		return _refConfig(ref)
 	}
+
+	return `local.yml`
+}
+
+func _refConfig(ref string) string {
+	// feat/xxxx
+	parts := strings.Split(ref, "/")
+	feat := parts[len(parts)-1]               // xxxx
+	return fmt.Sprintf("config.%s.yml", feat) // config.xxxx.yml
+
 }
