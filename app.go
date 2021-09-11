@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/tangx/envutils"
@@ -31,10 +32,12 @@ func (app *App) Conf(config interface{}) error {
 	if err != nil {
 		return err
 	}
-	_ = os.WriteFile("default.yml", data, 0644)
+	_ = os.MkdirAll("./config", 0755)
+	_ = os.WriteFile("./config/default.yml", data, 0644)
 
 	// load config from files
 	for _, _conf := range []string{"default.yml", "config.yml", refConfig()} {
+		_conf := filepath.Join("./config/", _conf)
 		err = envutils.UnmarshalFile(config, app.Name, _conf)
 		if err != nil {
 			log.Println(err)
