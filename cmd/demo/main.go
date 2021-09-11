@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/gobutler/butler"
+	"github.com/go-jarvis/jarvis"
 )
 
 type Server struct {
@@ -37,8 +37,8 @@ func (s Server) Run() error {
 func main() {
 	server := &Server{}
 
-	app := butler.App{
-		Name: "Server",
+	app := jarvis.App{
+		Name: "Demo",
 	}
 
 	config := &struct {

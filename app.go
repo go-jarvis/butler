@@ -1,4 +1,4 @@
-package butler
+package jarvis
 
 import (
 	"fmt"
@@ -13,7 +13,15 @@ type App struct {
 	Name string
 }
 
+func (app *App) SetDefaults() {
+	if app.Name == "" {
+		app.Name = "APP"
+	}
+}
+
 func (app *App) Conf(config interface{}) error {
+	app.SetDefaults()
+
 	if err := envutils.SetDefaults(config); err != nil {
 		return err
 	}

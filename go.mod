@@ -1,4 +1,4 @@
-module github.com/gobutler/butler
+module github.com/go-jarvis/jarvis
 
 go 1.16
 
