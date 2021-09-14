@@ -23,6 +23,11 @@ func (app *App) SetDefaults() {
 func (app *App) Conf(config interface{}) error {
 	app.SetDefaults()
 
+	// call SetDefaults
+	if err := envutils.CallSetDefaults(config); err != nil {
+		return err
+	}
+
 	// write config
 	data, err := envutils.Marshal(config, app.Name)
 	if err != nil {
@@ -46,8 +51,8 @@ func (app *App) Conf(config interface{}) error {
 		log.Print(err)
 	}
 
-	// call SetDefaults and Init method
-	if err := envutils.SetDefaults(config); err != nil {
+	// CallInit
+	if err := envutils.CallInit(config); err != nil {
 		return err
 	}
 

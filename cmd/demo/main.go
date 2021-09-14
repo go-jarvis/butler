@@ -16,7 +16,7 @@ type Server struct {
 
 func (s *Server) SetDefaults() {
 	if s.Port == 0 {
-		s.Port = 80
+		s.Port = 8098
 	}
 }
 
