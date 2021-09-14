@@ -5,6 +5,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.1.3](https://github.com/go-jarvis/jarvis/compare/v0.1.2...v0.1.3)
+
+### Bug Fixes
+
+* **fix** default.yml 中没有 default value ([d2a5786](https://github.com/go-jarvis/jarvis/commit/d2a5786582ba349fd7df6d0e3165800ea472cbb4))
+
+
+
 # [0.1.2](https://github.com/go-jarvis/jarvis/compare/v0.1.1...v0.1.2)
 
 ### Bug Fixes
