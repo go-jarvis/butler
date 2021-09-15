@@ -17,6 +17,8 @@
 
 ## example
 
+初始化代码如下
+
 ```go
 package main
 
@@ -76,3 +78,14 @@ func main() {
 }
 
 ```
+
+### config
+
+生成配置文件如下
+
+```yaml
+Demo__Server_addr: ""
+Demo__Server_port: 80
+```
+
+在启动过程中， 如果环境变量中有同名变量, (例如 `Demo__Server_port`), 该变量值将被读取， 并复制给对应的字段。
