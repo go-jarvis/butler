@@ -37,9 +37,7 @@ func (s Server) Run() error {
 func main() {
 	server := &Server{}
 
-	app := jarvis.App{
-		Name: "Demo",
-	}
+	app := jarvis.NewApp().WithName("Demo2")
 
 	config := &struct {
 		Server *Server

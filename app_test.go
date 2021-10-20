@@ -12,7 +12,6 @@ func Test_refConfig(t *testing.T) {
 		"develop",
 		"feat/xxxx",
 	} {
-		fmt.Println(_refConfig(ref))
-
+		fmt.Println(refFilename(ref))
 	}
 }
