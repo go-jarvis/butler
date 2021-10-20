@@ -5,6 +5,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.1.4](https://github.com/go-jarvis/jarvis/compare/v0.1.3...v0.1.4)
+
+
 # [0.1.3](https://github.com/go-jarvis/jarvis/compare/v0.1.2...v0.1.3)
 
 ### Bug Fixes
