@@ -20,7 +20,7 @@ type IJob interface {
 }
 
 type IShutdown interface {
-	Shutdown() error
+	Shutdown(ctx context.Context) error
 }
 
 type Launcher struct {
@@ -140,10 +140,9 @@ func (la *Launcher) shutdown(ctx context.Context) {
 		}
 
 		logrus.Infof("shutting down: %s", job.Name())
-		err := app.Shutdown()
+		err := app.Shutdown(ctx)
 		if err != nil {
 			logrus.Errorf("%s shutdown failed: %v", job.Name(), err)
 		}
-
 	}
 }

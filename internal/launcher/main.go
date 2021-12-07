@@ -16,7 +16,7 @@ func (r *Runner2) Name() string {
 	return "runner2s"
 }
 
-func (r *Runner2) Shutdown() error {
+func (r *Runner2) Shutdown(ctx context.Context) error {
 	return nil
 }
 
