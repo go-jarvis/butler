@@ -109,18 +109,22 @@ func (la *Launcher) enqueue(ctx context.Context, jobs ...IJob) {
 // launch 启动任务
 func (la *Launcher) launch(ctx context.Context, job IJob) {
 
+	// 捕获程序内部 panic
+	defer func() {
+		if err := recover(); err != nil {
+			// 重启
+			logrus.Errorf("job %s runs failed: %v", job.Name(), err)
+			if enqueueEnabled {
+				la.enqueue(ctx, job)
+			}
+		}
+	}()
+
 	logrus.Infof("job %s (re)start at %d times", job.Name(), la.jobs[job])
 
 	err := job.Run()
+	panic(err)
 
-	if err != nil {
-		logrus.Errorf("job %s runs failed: %v", job.Name(), err)
-
-		// 重启
-		if enqueueEnabled {
-			la.enqueue(ctx, job)
-		}
-	}
 }
 
 // shutdown 优雅关闭任务
