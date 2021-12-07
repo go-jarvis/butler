@@ -28,10 +28,14 @@ func (s *Server) Init() {
 	}
 }
 
-func (s Server) Run() error {
+func (s *Server) Run() error {
 	addr := fmt.Sprintf("%s:%d", s.Listen, s.Port)
 
 	return s.engine.Run(addr)
+}
+
+func (s *Server) Name() string {
+	return "http-serserver"
 }
 
 func main() {
@@ -49,6 +53,7 @@ func main() {
 	app.Conf(config)
 	// fmt.Println(config.Server.Port)
 
-	server.Run()
+	// server.Run()
+	app.Run(server)
 
 }
