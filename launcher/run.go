@@ -2,7 +2,6 @@ package launcher
 
 import (
 	"context"
-	"os"
 	"os/signal"
 	"syscall"
 	"time"
@@ -42,17 +41,21 @@ func (la *Launcher) Launch(ctx context.Context, jobs ...IJob) {
 
 	// 监听捕获信号
 	// https://colobu.com/2015/10/09/Linux-Signals/
-	sigs := make(chan os.Signal, 1)
-	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+	// sigs := make(chan os.Signal, 1)
+	// signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+
+	/* with context 写法更简单*/
+	ctx, stop := signal.NotifyContext(ctx, syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
 
 	for {
 		select {
-		case sig := <-sigs:
-			// 发送关闭信号
-			logrus.Infof("catch exit signal: %v", sig)
-			la.close()
+		// case sig := <-sigs:
+		// 	// 发送关闭信号
+		// 	logrus.Infof("catch exit signal: %v", sig)
+		// 	la.close()
 
-			return
+		// 	return
 		case <-ctx.Done():
 			logrus.Infof("context done: %v", ctx.Err())
 
