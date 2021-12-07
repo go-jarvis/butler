@@ -1,11 +1,11 @@
-package launcher
+package main
 
 import (
 	"context"
 	"fmt"
-	"testing"
 	"time"
 
+	"github.com/go-jarvis/jarvis/launcher"
 	"github.com/sirupsen/logrus"
 )
 
@@ -25,13 +25,13 @@ func (r *Runner2) Run() error {
 	return fmt.Errorf("sleep 5 s")
 }
 
-func Test_Run(t *testing.T) {
+func main() {
 	logrus.SetLevel(logrus.DebugLevel)
 
 	ctx := context.Background()
-	ctx, cancel := context.WithTimeout(ctx, 20*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 16*time.Second)
 	defer cancel()
 
-	la := &Launcher{}
+	la := &launcher.Launcher{}
 	la.Launch(ctx, &Runner2{})
 }
