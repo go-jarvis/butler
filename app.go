@@ -1,12 +1,14 @@
 package jarvis
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"github.com/go-jarvis/jarvis/launcher"
 	"github.com/tangx/envutils"
 )
 
@@ -91,4 +93,17 @@ func refFilename(ref string) string {
 	parts := strings.Split(ref, "/")
 	feat := parts[len(parts)-1]               // xxxx
 	return fmt.Sprintf("config.%s.yml", feat) // config.xxxx.yml
+}
+
+// Run 启动服务
+func (app *App) Run(jobs ...launcher.IJob) {
+	ctx := context.Background()
+	app.RunContext(ctx, jobs...)
+}
+
+// RunContext 启动服务
+func (app *App) RunContext(ctx context.Context, jobs ...launcher.IJob) {
+
+	launcher := &launcher.Launcher{}
+	launcher.Launch(ctx, jobs...)
 }
