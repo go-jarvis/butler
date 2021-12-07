@@ -89,3 +89,44 @@ Demo__Server_port: 80
 ```
 
 在启动过程中， 如果环境变量中有同名变量, (例如 `Demo__Server_port`), 该变量值将被读取， 并复制给对应的字段。
+
+
+## Launcher 启动器
+
+jarvis Launcher 支持管理多任务并行启动，
+
+如果服务满足接口 `IJob` 接口， 则可以通过 Launcher 管理启动和异常重启。
+
+```go
+type IJob interface {
+	Name() string
+	Run() error
+}
+```
+
+如果服务同时满足 IShutdown 接口， 则可以 Launcher 可以通过 **信号** 或 **context** 触发程序安全退出。
+
+```go
+type IShutdown interface {
+	Shutdown() error
+}
+```
+
+
+### demo
+
+demo [main.go](/internal/launcher/main.go)
+
+```go
+
+func main() {
+	logrus.SetLevel(logrus.DebugLevel)
+
+	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(ctx, 16*time.Second)
+	defer cancel()
+
+	la := &launcher.Launcher{}
+	la.Launch(ctx, &Runner2{})
+}
+```
