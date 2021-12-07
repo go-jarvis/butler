@@ -5,6 +5,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.2.1](https://github.com/go-jarvis/jarvis/compare/v0.2.0...v0.2.1)
+
+### Bug Fixes
+
+* **fix** app add launcher method : Run ([bd3f7a0](https://github.com/go-jarvis/jarvis/commit/bd3f7a0bbc84e1f6c1cf6411ba0dd12ed8de442d))
+
+
+
 # [0.2.0](https://github.com/go-jarvis/jarvis/compare/v0.1.4...v0.2.0)
 
 ### Bug Fixes
