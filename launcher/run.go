@@ -14,7 +14,7 @@ var (
 )
 
 type IJob interface {
-	Name() string
+	Appname() string
 	Run() error
 }
 
@@ -100,7 +100,7 @@ func (la *Launcher) close() {
 func (la *Launcher) enqueue(ctx context.Context, jobs ...IJob) {
 
 	for _, job := range jobs {
-		logrus.Debugf("job %s enqueue", job.Name())
+		logrus.Debugf("job %s enqueue", job.Appname())
 
 		// counter++
 		la.jobs[job] += 1
@@ -116,14 +116,14 @@ func (la *Launcher) launch(ctx context.Context, job IJob) {
 	defer func() {
 		if err := recover(); err != nil {
 			// 重启
-			logrus.Errorf("job %s runs failed: %v", job.Name(), err)
+			logrus.Errorf("job %s runs failed: %v", job.Appname(), err)
 			if enqueueEnabled {
 				la.enqueue(ctx, job)
 			}
 		}
 	}()
 
-	logrus.Infof("job %s (re)start at %d times", job.Name(), la.jobs[job])
+	logrus.Infof("job %s (re)start at %d times", job.Appname(), la.jobs[job])
 
 	err := job.Run()
 	panic(err)
@@ -138,14 +138,14 @@ func (la *Launcher) shutdown(ctx context.Context) {
 
 		app, ok := job.(IShutdown)
 		if !ok {
-			logrus.Warnf("%s has NO SHUTDOWN method: skip", job.Name())
+			logrus.Warnf("%s has NO SHUTDOWN method: skip", job.Appname())
 			continue
 		}
 
-		logrus.Infof("shutting down: %s", job.Name())
+		logrus.Infof("shutting down: %s", job.Appname())
 		err := app.Shutdown(ctx)
 		if err != nil {
-			logrus.Errorf("%s shutdown failed: %v", job.Name(), err)
+			logrus.Errorf("%s shutdown failed: %v", job.Appname(), err)
 		}
 	}
 }

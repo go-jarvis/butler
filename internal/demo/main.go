@@ -34,7 +34,7 @@ func (s *Server) Run() error {
 	return s.engine.Run(addr)
 }
 
-func (s *Server) Name() string {
+func (s *Server) Appname() string {
 	return "http-serserver"
 }
 

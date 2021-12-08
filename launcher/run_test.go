@@ -12,7 +12,7 @@ import (
 type Runner2 struct {
 }
 
-func (r *Runner2) Name() string {
+func (r *Runner2) Appname() string {
 	return "runner2s"
 }
 
