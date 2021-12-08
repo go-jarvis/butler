@@ -5,6 +5,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.2.2](https://github.com/go-jarvis/jarvis/compare/v0.2.1...v0.2.2)
+
+### Bug Fixes
+
+* **fix** 修改 IJob 接口名称 ([c976e47](https://github.com/go-jarvis/jarvis/commit/c976e47b2b295937a8a64e8a0f523c74573d2b6b))
+
+
+
 # [0.2.1](https://github.com/go-jarvis/jarvis/compare/v0.2.0...v0.2.1)
 
 ### Bug Fixes
