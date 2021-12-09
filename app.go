@@ -13,14 +13,8 @@ import (
 	"github.com/tangx/envutils"
 )
 
-// AppCtx 配置文件管理器
-type AppCtx struct {
-	name string
-	cmd  *cobra.Command
-}
-
-// NewApp 创建一个配置文件管理器
-func NewApp(opts ...AppCtxOption) *AppCtx {
+// New 创建一个配置文件管理器
+func New(opts ...AppCtxOption) *AppCtx {
 	app := &AppCtx{}
 
 	for _, opt := range opts {
@@ -28,10 +22,29 @@ func NewApp(opts ...AppCtxOption) *AppCtx {
 	}
 
 	app.cmd = &cobra.Command{}
+
 	return app
 }
 
+// AppCtx 配置文件管理器
+type AppCtx struct {
+	name     string
+	helpMode bool
+	cmd      *cobra.Command
+}
+
+// NewApp deprecated
+func NewApp(opts ...AppCtxOption) *AppCtx {
+	return New(opts...)
+}
+
 type AppCtxOption = func(app *AppCtx)
+
+func WithHelpMode() AppCtxOption {
+	return func(app *AppCtx) {
+		app.helpMode = true
+	}
+}
 
 // WithName 设置 name
 func WithName(name string) AppCtxOption {
@@ -89,13 +102,31 @@ func (app *AppCtx) Conf(config interface{}) error {
 
 // AddCommand 添加子命令
 // ex: AddCommand(migrate, module.Migrate())
-func (app *AppCtx) AddCommand(use string, fn func(args ...string)) {
+//
+// cmdOpts can be flags options
+// ex:
+//
+// func WithFlags(flag string) func(*cobra.Command) {
+// 	return func(cmd *cobra.Command) {
+// 		cmd.Flags().StringVarP(&flag, "targets", "t", "nothing", "specify targets")
+// 	}
+// }
+func (app *AppCtx) AddCommand(use string, fn func(args ...string), cmdOpts ...func(*cobra.Command)) {
 	subCmd := &cobra.Command{
 		Use: use,
 	}
 
 	subCmd.Run = func(cmd *cobra.Command, args []string) {
+
+		if app.helpMode {
+			_ = cmd.Help()
+		}
+
 		fn(args...)
+	}
+
+	for _, opt := range cmdOpts {
+		opt(subCmd)
 	}
 
 	app.cmd.AddCommand(subCmd)
@@ -136,7 +167,10 @@ func (app *AppCtx) RunContext(ctx context.Context, jobs ...launcher.IJob) {
 
 	// 添加命令
 	app.cmd.Run = func(cmd *cobra.Command, args []string) {
-		_ = cmd.Help()
+
+		if app.helpMode {
+			_ = cmd.Help()
+		}
 
 		launcher.Launch(ctx, jobs...)
 	}
