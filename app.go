@@ -3,14 +3,12 @@ package jarvis
 import (
 	"context"
 	"fmt"
-	"html/template"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/go-jarvis/jarvis/launcher"
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/tangx/envutils"
 )
@@ -188,28 +186,4 @@ func (app *AppCtx) RunContext(ctx context.Context, jobs ...launcher.IJob) {
 	if err := app.cmd.Execute(); err != nil {
 		panic(err)
 	}
-}
-
-func (app *AppCtx) dockerizeCommand() {
-	tmpl, _ := template.New("dockerfile").Parse(dockerfileTmpl)
-
-	fobj, err := os.OpenFile("Dockerfile.default", os.O_TRUNC|os.O_CREATE|os.O_RDWR, 0644)
-	if err != nil {
-		logrus.Errorf("create Dockerfile.default failed: %v", err)
-	}
-	defer fobj.Close()
-
-	data := struct {
-		Name     string
-		WorkRoot string
-	}{
-		Name:     app.name,
-		WorkRoot: "internal/demo",
-	}
-
-	err = tmpl.Execute(fobj, data)
-	if err != nil {
-		logrus.Errorf("write Dockerfile.default failed: %v", err)
-	}
-
 }
