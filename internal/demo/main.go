@@ -43,7 +43,7 @@ var (
 	server = &Server{}
 
 	// app := jarvis.NewApp().WithName("Demo2")
-	app = jarvis.NewApp(
+	app = jarvis.New(
 		jarvis.WithName("Demo2s"),
 		jarvis.WithHelpMode(),
 	)
@@ -67,11 +67,9 @@ var target = ""
 
 func main() {
 
-	cmdopt := func() func(*cobra.Command) {
-		return func(cmd *cobra.Command) {
-			fmt.Println("添加 targets flag")
-			cmd.Flags().StringVarP(&target, "target", "t", "defualt value", "say hello to targets")
-		}
+	cmdopt := func(cmd *cobra.Command) {
+		// fmt.Println("添加 targets flag")
+		cmd.Flags().StringVarP(&target, "target", "t", "defualt value", "say hello to targets")
 	}
 
 	/*
@@ -85,7 +83,12 @@ func main() {
 		hello()
 		helloFailed(target)
 	},
-		cmdopt(),
+		cmdopt,
+
+		func(cmd *cobra.Command) {
+			// fmt.Println("添加 targets flag")
+			cmd.Long = "say hello"
+		},
 	)
 
 	app.Run(server)
