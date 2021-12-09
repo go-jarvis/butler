@@ -38,25 +38,42 @@ func (s *Server) Appname() string {
 	return "http-serserver"
 }
 
-func main() {
-	server := &Server{}
+var (
+	server = &Server{}
 
 	// app := jarvis.NewApp().WithName("Demo2")
-	app := jarvis.NewApp(
+	app = jarvis.NewApp(
 		jarvis.WithName("Demo2s"),
 	)
+)
+
+func init() {
 
 	config := &struct {
 		Server *Server
 	}{
 		Server: server,
 	}
-	// app.Save(config)
 
 	app.Conf(config)
-	// fmt.Println(config.Server.Port)
 
+	server.engine.GET("/ping", func(c *gin.Context) { c.String(200, "pong") })
+
+}
+
+func main() {
+
+	app.AddCommand("hello", func(args ...string) {
+		hello()
+	})
 	// server.Run()
+	// app.Run(server)
+
+	// app.HelpCmd()
 	app.Run(server)
 
+}
+
+func hello() {
+	fmt.Println("hello go-jarvis")
 }
