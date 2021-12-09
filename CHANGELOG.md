@@ -5,6 +5,20 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.3.0](https://github.com/go-jarvis/jarvis/compare/v0.2.2...v0.3.0)
+
+### Bug Fixes
+
+* **fix** 增加子命令参数传递 ([892cd31](https://github.com/go-jarvis/jarvis/commit/892cd3162095dd6290bdafc24f264cc3338c440c))
+* **fix** fix sub command not append to root command ([0ac7832](https://github.com/go-jarvis/jarvis/commit/0ac7832ed80c09cbcf077c3f84d7424654b5f2c8))
+
+
+### Features
+
+* **feat** jarvis 支持添加 cobra.Command 模式， 支持添加子命令 ([cfb1eed](https://github.com/go-jarvis/jarvis/commit/cfb1eedf195c01c122990e58d9a81ca832c3f604))
+
+
+
 # [0.2.2](https://github.com/go-jarvis/jarvis/compare/v0.2.1...v0.2.2)
 
 ### Bug Fixes
