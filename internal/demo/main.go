@@ -41,7 +41,10 @@ func (s *Server) Appname() string {
 func main() {
 	server := &Server{}
 
-	app := jarvis.NewApp().WithName("Demo2")
+	// app := jarvis.NewApp().WithName("Demo2")
+	app := jarvis.NewApp(
+		jarvis.WithName("Demo2s"),
+	)
 
 	config := &struct {
 		Server *Server

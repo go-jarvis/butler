@@ -9,34 +9,46 @@ import (
 	"strings"
 
 	"github.com/go-jarvis/jarvis/launcher"
+	"github.com/spf13/cobra"
 	"github.com/tangx/envutils"
 )
 
-// App 配置文件管理器
-type App struct {
+// AppCtx 配置文件管理器
+type AppCtx struct {
 	name string
+	cmd  *cobra.Command
 }
 
 // NewApp 创建一个配置文件管理器
-func NewApp() *App {
-	return &App{}
-}
+func NewApp(opts ...AppCtxOption) *AppCtx {
+	app := &AppCtx{}
 
-// setDefaults 设置默认值
-func (app *App) setDefaults() {
-	if app.name == "" {
-		app.name = "APP"
+	for _, opt := range opts {
+		opt(app)
 	}
-}
 
-// WithName 为 App 指定一个名字
-func (app *App) WithName(name string) *App {
-	app.name = name
+	app.cmd = &cobra.Command{}
 	return app
 }
 
+type AppCtxOption = func(app *AppCtx)
+
+// WithName 设置 name
+func WithName(name string) AppCtxOption {
+	return func(app *AppCtx) {
+		app.name = name
+	}
+}
+
+// setDefaults 设置默认值
+func (app *AppCtx) setDefaults() {
+	if app.name == "" {
+		app.name = "app"
+	}
+}
+
 // Conf 解析配置， 并在 config 目录下生成 xxx.yml 文件
-func (app *App) Conf(config interface{}) error {
+func (app *AppCtx) Conf(config interface{}) error {
 	app.setDefaults()
 
 	// call SetDefaults
@@ -75,6 +87,19 @@ func (app *App) Conf(config interface{}) error {
 	return nil
 }
 
+// AddCommand 添加子命令
+// ex: AddCommand(migrate, module.Migrate())
+func (app *AppCtx) AddCommand(use string, fn func(args ...string)) {
+	subCmd := &cobra.Command{
+		Use: use,
+	}
+
+	subCmd.Run = func(cmd *cobra.Command, args []string) {
+		fn(args...)
+	}
+
+}
+
 // refConfig 根据 gitlab ci 环境变量创建与分支对应的配置文件
 func refConfig() string {
 	// gitlab ci
@@ -96,14 +121,34 @@ func refFilename(ref string) string {
 }
 
 // Run 启动服务
-func (app *App) Run(jobs ...launcher.IJob) {
+func (app *AppCtx) Run(jobs ...launcher.IJob) {
 	ctx := context.Background()
 	app.RunContext(ctx, jobs...)
 }
 
 // RunContext 启动服务
-func (app *App) RunContext(ctx context.Context, jobs ...launcher.IJob) {
+func (app *AppCtx) RunContext(ctx context.Context, jobs ...launcher.IJob) {
 
 	launcher := &launcher.Launcher{}
-	launcher.Launch(ctx, jobs...)
+
+	app.cmd.Use = app.name
+
+	// 添加命令
+	app.cmd.Run = func(cmd *cobra.Command, args []string) {
+		_ = cmd.Help()
+
+		launcher.Launch(ctx, jobs...)
+	}
+
+	// 启动服务
+	if err := app.cmd.Execute(); err != nil {
+		panic(err)
+	}
 }
+
+// var rootCmd = &cobra.Command{
+// 	Use: "root",
+// 	Run: func(cmd *cobra.Command, args []string) {
+// 		_ = cmd.Help()
+// 	},
+// }
