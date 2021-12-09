@@ -130,3 +130,32 @@ func main() {
 	la.Launch(ctx, &Runner2{})
 }
 ```
+
+### jarvis appctx 支持 cobra.Command 命令模式
+
+支持添加子命令
+
+```go
+func main() {
+
+	app.AddCommand("hello", func(args ...string) {
+		// target = strings.Join(args, ", ")
+		hello()
+		helloFailed(target)
+	},
+		func(cmd *cobra.Command) {
+			cmd.Long = "say hello"
+		},
+	)
+
+	app.Run(server)
+
+}
+
+
+// say hello
+// Usage:
+//   Demo2s hello [flags]
+// Flags:
+//   -h, --help            help for hello
+```
