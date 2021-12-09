@@ -57,7 +57,7 @@ func init() {
 		Server: server,
 	}
 
-	app.Conf(config)
+	_ = app.Conf(config)
 
 	server.engine.GET("/ping", func(c *gin.Context) { c.String(200, "pong") })
 
