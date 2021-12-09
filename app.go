@@ -98,6 +98,7 @@ func (app *AppCtx) AddCommand(use string, fn func(args ...string)) {
 		fn(args...)
 	}
 
+	app.cmd.AddCommand(subCmd)
 }
 
 // refConfig 根据 gitlab ci 环境变量创建与分支对应的配置文件
