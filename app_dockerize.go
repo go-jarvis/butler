@@ -14,7 +14,7 @@ var dockerfileTmpl string
 func (app *AppCtx) dockerizeCommand() {
 	tmpl, _ := template.New("dockerfile").Parse(dockerfileTmpl)
 
-	fobj, err := os.OpenFile("Dockerfile.default", os.O_TRUNC|os.O_CREATE|os.O_RDWR, 0644)
+	fobj, err := os.OpenFile("Dockerfile.default", os.O_TRUNC|os.O_CREATE|os.O_RDWR, os.ModePerm)
 	if err != nil {
 		logrus.Errorf("create Dockerfile.default failed: %v", err)
 	}
