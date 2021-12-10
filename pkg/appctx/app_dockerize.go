@@ -6,14 +6,13 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/go-jarvis/jarvis/pkg/tmpl"
 	"github.com/sirupsen/logrus"
 )
 
-//go:embed tmpl/Dockerfile.tmpl
-var dockerfileTmpl string
-
 func (app *AppCtx) dockerizeCommand() {
-	tmpl, _ := template.New("dockerfile").Parse(dockerfileTmpl)
+	dockerfile, _ := tmpl.GetFile("Dockerfile")
+	tmpl, _ := template.New("dockerfile").Parse(string(dockerfile))
 
 	fobj, err := os.OpenFile("Dockerfile.default", os.O_TRUNC|os.O_CREATE|os.O_RDWR, os.ModePerm)
 	if err != nil {

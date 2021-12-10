@@ -7,6 +7,7 @@ import (
 	"testing"
 	"text/template"
 
+	"github.com/go-jarvis/jarvis/pkg/tmpl"
 	. "github.com/onsi/gomega"
 	"github.com/sirupsen/logrus"
 )
@@ -34,17 +35,20 @@ func TestTemplate(t *testing.T) {
 	// tmpl, err := template.ParseFiles("tmpl/Dockerfile.tmpl")
 
 	// read string
+	dockerfile, _ := tmpl.GetFile("Dockerfile")
+	dockerfileTmpl := string(dockerfile)
+
 	tmpl, err := template.New("dockerfile").Parse(dockerfileTmpl)
 	if err != nil {
 		panic(err)
 	}
 
 	data := struct {
-		Name     string
-		WorkRoot string
+		Name    string
+		Workdir string
 	}{
-		Name:     app.name,
-		WorkRoot: "internal/demo",
+		Name:    app.name,
+		Workdir: "internal/demo",
 	}
 
 	err = tmpl.Execute(os.Stdout, data)
