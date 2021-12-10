@@ -36,8 +36,6 @@ func (info *ProjectInfo) initial() {
 	if info.PkgName == "" {
 		info.PkgName = fmt.Sprintf("github.com/go-jarvis/%s", info.Name)
 	}
-
-	_ = info.render(".", true)
 }
 
 // CreateProject create a new project
@@ -56,11 +54,16 @@ func (info *ProjectInfo) CreateProject() {
 }
 
 // walk templates/project folder recursive
-func (info *ProjectInfo) walk(entries []fs.DirEntry, parent string) {
+func (info *ProjectInfo) walk(entries []fs.DirEntry, dirname string) {
+	err := info.render(dirname, true)
+	if err != nil {
+		panic(err)
+	}
+
 	for _, entry := range entries {
 		name := entry.Name()
 
-		fullpath := filepath.Join(parent, name)
+		fullpath := filepath.Join(dirname, name)
 
 		// create file
 		if !entry.IsDir() {
@@ -73,11 +76,6 @@ func (info *ProjectInfo) walk(entries []fs.DirEntry, parent string) {
 		}
 
 		// walkdir
-		err := info.render(fullpath, true)
-		if err != nil {
-			panic(err)
-		}
-
 		subEntries, err := tmpl.ReadProjectDir(fullpath)
 		if err != nil {
 			panic(err)
