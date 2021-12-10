@@ -5,6 +5,22 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.4.0](https://github.com/go-jarvis/jarvis/compare/v0.3.0...v0.4.0)
+
+### Bug Fixes
+
+* **fix** move dockerfile template to tmpl folder ([26dbcd2](https://github.com/go-jarvis/jarvis/commit/26dbcd2296d2bff14733655d419f9069ec227ac3))
+
+
+### Features
+
+* **feat** add jarvis cmd to create new project quickly ([ce62760](https://github.com/go-jarvis/jarvis/commit/ce62760685c78710f9afb4c5b998e667070910a3))
+* **feat** jarvis cmd create project ([3d635da](https://github.com/go-jarvis/jarvis/commit/3d635da76d1c30ce9acb7ff2c1a9543bbf3107d9))
+* **feat** calculate workdir path ([6264d1a](https://github.com/go-jarvis/jarvis/commit/6264d1a9362091b3a1b70734b0e6027cdba32669))
+* **feat** 支持 dockerize 子命令生成 Dockerfile ([008d4a1](https://github.com/go-jarvis/jarvis/commit/008d4a155d1c07674ce4db62d015b06dd569878f))
+
+
+
 # [0.3.0](https://github.com/go-jarvis/jarvis/compare/v0.2.2...v0.3.0)
 
 ### Bug Fixes
