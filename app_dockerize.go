@@ -3,6 +3,7 @@ package jarvis
 import (
 	_ "embed"
 	"os"
+	"strings"
 	"text/template"
 
 	"github.com/sirupsen/logrus"
@@ -21,15 +22,27 @@ func (app *AppCtx) dockerizeCommand() {
 	defer fobj.Close()
 
 	data := struct {
-		Name     string
-		WorkRoot string
+		Name    string
+		Workdir string
 	}{
-		Name:     app.name,
-		WorkRoot: "internal/demo",
+		Name:    app.name,
+		Workdir: workdir(app.rootdir),
 	}
 
 	err = tmpl.Execute(fobj, data)
 	if err != nil {
 		logrus.Errorf("write Dockerfile.default failed: %v", err)
 	}
+}
+
+func workdir(root string) string {
+	workdir, _ := os.Getwd()
+	sub := strings.TrimPrefix(workdir, root)
+
+	sub = strings.Trim(sub, "/")
+	if sub == "" {
+		return "."
+	}
+
+	return sub
 }

@@ -29,6 +29,7 @@ func New(opts ...AppCtxOption) *AppCtx {
 // AppCtx 配置文件管理器
 type AppCtx struct {
 	name     string
+	rootdir  string
 	helpMode bool
 	cmd      *cobra.Command
 }
@@ -46,6 +47,15 @@ func WithHelpMode() AppCtxOption {
 	}
 }
 
+// WithRoot 指定项目根目录， 即 go.mod 所在的目录。
+//  root 可以是相对 main.go 的相对路径， 也是可以是绝对路径
+func WithRoot(root string) AppCtxOption {
+	return func(app *AppCtx) {
+		abs, _ := filepath.Abs(root)
+		app.rootdir = abs
+	}
+}
+
 // WithName 设置 name
 func WithName(name string) AppCtxOption {
 	return func(app *AppCtx) {
@@ -57,6 +67,11 @@ func WithName(name string) AppCtxOption {
 func (app *AppCtx) setDefaults() {
 	if app.name == "" {
 		app.name = "app"
+	}
+
+	// if rootdir wat not set, use current path as rootdir.
+	if app.rootdir == "" {
+		app.rootdir, _ = os.Getwd()
 	}
 }
 

@@ -46,6 +46,7 @@ var (
 	app = jarvis.New(
 		jarvis.WithName("Demo2s"),
 		jarvis.WithHelpMode(),
+		jarvis.WithRoot("../../"),
 	)
 )
 
