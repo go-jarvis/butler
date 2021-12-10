@@ -85,15 +85,20 @@ func (info *ProjectInfo) walk(entries []fs.DirEntry, dirname string) {
 	}
 }
 
-// render 创建目录或渲染文件
-//   source 是 project 下文件的相对路径
-func (info *ProjectInfo) render(source string, isDir bool) error {
-
+// target calculate target
+func (info *ProjectInfo) target(source string) string {
 	// replace placeholder
 	target := strings.ReplaceAll(source, tmpl.PlaceHolder_ProjectName, info.Name)
 	target = strings.TrimSuffix(target, tmpl.PlaceHolder_FileSuffix)
 	// join real path
-	target = filepath.Join(info.Workdir, target)
+	return filepath.Join(info.Workdir, target)
+
+}
+
+// render 创建目录或渲染文件
+//   source 是 project 下文件的相对路径
+func (info *ProjectInfo) render(source string, isDir bool) error {
+	target := info.target(source)
 
 	// create folder
 	if isDir {
