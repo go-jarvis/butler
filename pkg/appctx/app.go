@@ -1,4 +1,4 @@
-package jarvis
+package appctx
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/go-jarvis/jarvis/launcher"
+	"github.com/go-jarvis/jarvis/pkg/launcher"
 	"github.com/spf13/cobra"
 	"github.com/tangx/envutils"
 )

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-jarvis/jarvis"
+	"github.com/go-jarvis/jarvis/pkg/appctx"
 	"github.com/spf13/cobra"
 )
 
@@ -43,10 +43,10 @@ var (
 	server = &Server{}
 
 	// app := jarvis.NewApp().WithName("Demo2")
-	app = jarvis.New(
-		jarvis.WithName("Demo2s"),
-		jarvis.WithHelpMode(),
-		jarvis.WithRoot("../../"),
+	app = appctx.New(
+		appctx.WithName("Demo2s"),
+		appctx.WithHelpMode(),
+		appctx.WithRoot("../../"),
 	)
 )
 
