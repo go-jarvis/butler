@@ -2,23 +2,37 @@ package tmpl
 
 import (
 	"embed"
-	"fmt"
+	"io/fs"
 	"path/filepath"
 )
 
-//go:embed templates/**
+const (
+	ProjectPlaceHolder = `jarvis-demo`
+)
+const (
+	_PATH_Templates        = "templates"
+	_PATH_TemplatesProject = "templates/project"
+)
+
+//go:embed templates
 var dir embed.FS
 
 func GetFile(filename string) ([]byte, error) {
+	target := filepath.Join(_PATH_Templates, filename)
+	return dir.ReadFile(target)
+}
 
-	entries, _ := dir.ReadDir("templates")
+func ReadDir(path string) ([]fs.DirEntry, error) {
+	return dir.ReadDir(path)
+}
 
-	for _, entry := range entries {
-		if entry.Name() == filename {
-			f := filepath.Join("templates", filename)
-			return dir.ReadFile(f)
-		}
-	}
+func ReadProjectDir(path string) ([]fs.DirEntry, error) {
+	fullpath := filepath.Join(_PATH_TemplatesProject, path)
+	return ReadDir(fullpath)
+}
 
-	return nil, fmt.Errorf("%s not found", filename)
+func ReadProjectFile(filename string) ([]byte, error) {
+
+	target := filepath.Join(_PATH_TemplatesProject, filename)
+	return dir.ReadFile(target)
 }

@@ -1,7 +1,6 @@
 package appctx
 
 import (
-	_ "embed"
 	"os"
 	"strings"
 	"text/template"

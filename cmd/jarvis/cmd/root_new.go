@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	_ "embed"
-
 	"github.com/go-jarvis/cobrautils"
 	"github.com/go-jarvis/jarvis/pkg/jarvis"
 	"github.com/spf13/cobra"
