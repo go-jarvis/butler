@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/go-jarvis/jarvis/launcher"
+	"github.com/go-jarvis/jarvis/pkg/launcher"
 	"github.com/sirupsen/logrus"
 )
 
