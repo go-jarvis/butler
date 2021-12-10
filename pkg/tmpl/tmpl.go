@@ -7,7 +7,8 @@ import (
 )
 
 const (
-	ProjectPlaceHolder = `jarvis-demo`
+	PlaceHolder_ProjectName = `jarvis-demo`
+	PlaceHolder_FileSuffix  = ".tmpl"
 )
 const (
 	_PATH_Templates        = "templates"

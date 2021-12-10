@@ -92,8 +92,8 @@ func (info *ProjectInfo) walk(entries []fs.DirEntry, parent string) {
 func (info *ProjectInfo) render(source string, isDir bool) error {
 
 	// replace placeholder
-	target := strings.ReplaceAll(source, tmpl.ProjectPlaceHolder, info.Name)
-	target = strings.TrimSuffix(target, ".tmpl")
+	target := strings.ReplaceAll(source, tmpl.PlaceHolder_ProjectName, info.Name)
+	target = strings.TrimSuffix(target, tmpl.PlaceHolder_FileSuffix)
 	// join real path
 	target = filepath.Join(info.Workdir, target)
 
