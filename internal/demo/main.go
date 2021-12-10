@@ -44,7 +44,7 @@ var (
 
 	// app := jarvis.NewApp().WithName("Demo2")
 	app = appctx.New(
-		appctx.WithName("Demo2s"),
+		appctx.WithName("demo2s"),
 		appctx.WithHelpMode(),
 		appctx.WithRoot("../../"),
 	)
