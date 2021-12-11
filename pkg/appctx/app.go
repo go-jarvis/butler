@@ -14,15 +14,16 @@ import (
 )
 
 // New 创建一个配置文件管理器
-func New(opts ...AppCtxOption) *AppCtx {
+func New() *AppCtx {
 	app := &AppCtx{}
+	app.cmd = &cobra.Command{}
+	return app
+}
 
+func (app *AppCtx) WithOptions(opts ...AppCtxOption) *AppCtx {
 	for _, opt := range opts {
 		opt(app)
 	}
-
-	app.cmd = &cobra.Command{}
-
 	return app
 }
 
@@ -32,11 +33,6 @@ type AppCtx struct {
 	rootdir  string
 	helpMode bool
 	cmd      *cobra.Command
-}
-
-// NewApp deprecated
-func NewApp(opts ...AppCtxOption) *AppCtx {
-	return New(opts...)
 }
 
 type AppCtxOption = func(app *AppCtx)

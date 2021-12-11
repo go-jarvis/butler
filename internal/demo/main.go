@@ -43,7 +43,7 @@ var (
 	server = &Server{}
 
 	// app := jarvis.NewApp().WithName("Demo2")
-	app = appctx.New(
+	app = appctx.New().WithOptions(
 		appctx.WithName("demo2s"),
 		appctx.WithHelpMode(),
 		appctx.WithRoot("../../"),
