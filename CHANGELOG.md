@@ -5,6 +5,15 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.4.1](https://github.com/go-jarvis/jarvis/compare/v0.4.0...v0.4.1)
+
+### Bug Fixes
+
+* **fix** add appctx wtih options ([c02dfc4](https://github.com/go-jarvis/jarvis/commit/c02dfc47d2c8085f620ce01dd820b69839eb500f))
+* **fix** create directory when walk beginning ([59dd713](https://github.com/go-jarvis/jarvis/commit/59dd71397d9768bebfb41b2d5fcb0ea728edda2c))
+
+
+
 # [0.4.0](https://github.com/go-jarvis/jarvis/compare/v0.3.0...v0.4.0)
 
 ### Bug Fixes
