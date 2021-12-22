@@ -5,7 +5,16 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.4.4](https://github.com/go-jarvis/jarvis/compare/v0.4.3...v0.4.4)
+
+### Bug Fixes
+
+* **fix** bump tangx/envutils ([83d8b1f](https://github.com/go-jarvis/jarvis/commit/83d8b1f4d740394b0547c361a0aacae451000303))
+
+
+
 # [0.4.3](https://github.com/go-jarvis/jarvis/compare/v0.4.2...v0.4.3)
+
 
 
 # [0.4.2](https://github.com/go-jarvis/jarvis/compare/v0.4.1...v0.4.2)
