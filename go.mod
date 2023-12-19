@@ -8,5 +8,5 @@ require (
 	github.com/onsi/gomega v1.17.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cobra v1.2.1
-	github.com/tangx/envutils v0.3.7
+	github.com/tangx/envutils v0.3.14
 )

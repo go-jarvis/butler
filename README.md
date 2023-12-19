@@ -1,5 +1,10 @@
 ![](https://avatars.githubusercontent.com/u/82073077?s=400&u=f51fd1a2c01103122f249b4539fafb2495a109b1&v=4)
+
 # jarivs
+
+```bash
+go get -u github.com/go-jarvis/jarvis
+```
 
 1. 根据配置 `config{}` 生成对应的 `default.yml` 配置文件。 
 2. 读取依次配置文件 `default.yml, config.yml` + `分支配置文件.yml` + `环境变量`
@@ -36,13 +41,15 @@ type Server struct {
 	engine *gin.Engine
 }
 
+// SetDefaults values **Important**
 func (s *Server) SetDefaults() {
 	if s.Port == 0 {
 		s.Port = 80
 	}
 }
 
-func (s *Server) Init() {
+// Initialize target, **Important**
+func (s *Server) Initialize() {
 	s.SetDefaults()
 
 	if s.engine == nil {

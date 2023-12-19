@@ -1,5 +1,8 @@
 package jarvis
 
+// 好像其实没什么用
+// 当初是为了模仿 cobra 的方式， 创建一个项目初始化的命令。
+
 import (
 	"fmt"
 	"io/fs"
@@ -96,7 +99,8 @@ func (info *ProjectInfo) target(source string) string {
 }
 
 // render 创建目录或渲染文件
-//   source 是 project 下文件的相对路径
+//
+//	source 是 project 下文件的相对路径
 func (info *ProjectInfo) render(source string, isDir bool) error {
 	target := info.target(source)
 

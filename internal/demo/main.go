@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-jarvis/jarvis/pkg/appctx"
+	"github.com/go-jarvis/jarvis/pkg/jarvis"
 	"github.com/spf13/cobra"
 )
 
@@ -21,7 +21,7 @@ func (s *Server) SetDefaults() {
 	}
 }
 
-func (s *Server) Init() {
+func (s *Server) Initialize() {
 	s.SetDefaults()
 
 	if s.engine == nil {
@@ -43,10 +43,10 @@ var (
 	server = &Server{}
 
 	// app := jarvis.NewApp().WithName("Demo2")
-	app = appctx.New().WithOptions(
-		appctx.WithName("demo2s"),
-		appctx.WithHelpMode(),
-		appctx.WithRoot("../../"),
+	app = jarvis.New("default_name").WithOptions(
+		jarvis.WithName("demo2s"),
+		jarvis.WithHelpMode(),
+		jarvis.WithRoot("../../"),
 	)
 )
 

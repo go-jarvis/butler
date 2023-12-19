@@ -1,4 +1,4 @@
-package appctx
+package jarvis
 
 import (
 	"context"
@@ -14,8 +14,10 @@ import (
 )
 
 // New 创建一个配置文件管理器
-func New() *AppCtx {
-	app := &AppCtx{}
+func New(name string) *AppCtx {
+	app := &AppCtx{
+		name: name,
+	}
 	app.cmd = &cobra.Command{}
 	return app
 }
@@ -44,7 +46,8 @@ func WithHelpMode() AppCtxOption {
 }
 
 // WithRoot 指定项目根目录， 即 go.mod 所在的目录。
-//  root 可以是相对 main.go 的相对路径， 也是可以是绝对路径
+//
+//	root 可以是相对 main.go 的相对路径， 也是可以是绝对路径
 func WithRoot(root string) AppCtxOption {
 	return func(app *AppCtx) {
 		abs, _ := filepath.Abs(root)
@@ -104,7 +107,7 @@ func (app *AppCtx) Conf(config interface{}) error {
 	}
 
 	// CallInit
-	if err := envutils.CallInit(config); err != nil {
+	if err := envutils.CallInitialize(config); err != nil {
 		return err
 	}
 
@@ -117,11 +120,11 @@ func (app *AppCtx) Conf(config interface{}) error {
 // cmdOpts can be flags options
 // ex:
 //
-// func WithFlags(flag string) func(*cobra.Command) {
-// 	return func(cmd *cobra.Command) {
-// 		cmd.Flags().StringVarP(&flag, "targets", "t", "nothing", "specify targets")
-// 	}
-// }
+//	func WithFlags(flag string) func(*cobra.Command) {
+//		return func(cmd *cobra.Command) {
+//			cmd.Flags().StringVarP(&flag, "targets", "t", "nothing", "specify targets")
+//		}
+//	}
 func (app *AppCtx) AddCommand(use string, fn func(args ...string), cmdOpts ...func(*cobra.Command)) {
 	subCmd := &cobra.Command{
 		Use: use,
